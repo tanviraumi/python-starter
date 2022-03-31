@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: python-starter
+  labels:
+    app: python-starter
+spec:
+  selector:
+    matchLabels:
+      app: python-starter
+  template:
+    metadata:
+      labels:
+        app: python-starter
+    spec:
+      containers:
+      - name: python-starter
+        image: python-starter
