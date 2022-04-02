@@ -5,7 +5,7 @@ metadata:
 build:
   artifacts:
   - image: python-starter
-    context: app
+    context: py
     docker:
       dockerfile: Dockerfile
 deploy:

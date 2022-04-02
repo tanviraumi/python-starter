@@ -1,0 +1,5 @@
+-r pip.txt
+
+# Base tools necessary to install/manage project dependencies
+pip-tools
+watchdog
