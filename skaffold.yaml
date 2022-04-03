@@ -4,22 +4,22 @@ metadata:
   name: python-starter
 build:
   artifacts:
-  - image: python-starter
-    context: py
+  - image: omniscient
+    context: .
     docker:
-      dockerfile: Dockerfile
+      dockerfile: ./py/Dockerfile
 deploy:
   kustomize:
     paths:
-    - overlays/dev
+    - ./overlays/dev
 profiles:
 - name: prod
   deploy:
     kustomize:
       paths:
-      - overlays/prod
+      - ./overlays/prod
 - name: staging
   deploy:
     kustomize:
       paths:
-      - overlays/staging
+      - ./overlays/staging

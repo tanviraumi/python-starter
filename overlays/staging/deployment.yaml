@@ -1,6 +1,6 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: python-starter
+  name: omniscient
   labels:
     env: staging

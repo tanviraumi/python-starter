@@ -1,18 +1,31 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: omniscient
+spec:
+  ports:
+  - port: 3000
+  type: LoadBalancer
+  selector:
+    app: omniscient
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: python-starter
+  name: omniscient
   labels:
-    app: python-starter
+    app: omniscient
 spec:
   selector:
     matchLabels:
-      app: python-starter
+      app: omniscient
   template:
     metadata:
       labels:
-        app: python-starter
+        app: omniscient
     spec:
       containers:
-      - name: python-starter
-        image: python-starter
+      - name: omniscient
+        image: omniscient
+        ports:
+        - containerPort: 3000
