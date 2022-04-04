@@ -1,16 +1,8 @@
-import tornado.ioloop
-import tornado.web
+from tornado.web import RequestHandler
 
-class MainHandler(tornado.web.RequestHandler):
+class HelloWorld(RequestHandler):
+    """Print 'Hello, world!' as the response body."""
+
     def get(self):
-        self.write("Hello, world")
-
-def make_app():
-    return tornado.web.Application([
-        (r"/", MainHandler),
-    ])
-
-if __name__ == "__main__":
-    app = make_app()
-    app.listen(3000)
-    tornado.ioloop.IOLoop.current().start()
+        """Handle a GET request for saying Hello World!."""
+        self.write("Hello, world from Tornado run in Docker!")

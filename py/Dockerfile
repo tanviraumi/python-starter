@@ -30,14 +30,18 @@ WORKDIR /home/omniscient/app/py
 #Copy over the requirements
 COPY --chown=omniscient:omniscient py/requirements requirements
 
+# Copy over the setup files and code
+COPY --chown=omniscient:omniscient py/README.md .
+COPY --chown=omniscient:omniscient py/setup.py .
+COPY --chown=omniscient:omniscient py/server server
+
 # We explicitly duplicate the Makefile commands to avoid requiring a rebuild of this image on a Makefile change
 RUN python3 -m venv .env && \
     . .env/bin/activate && \
     pip install -r requirements/pip.txt && \
-    pip install -r requirements/requirements.txt
-
-# Copy over the code
-COPY --chown=omniscient:omniscient py/server server
+    pip install -r requirements/requirements.txt && \
+    pip install .
 
 EXPOSE 3000
-ENTRYPOINT [".env/bin/python3", "server/app.py"]
+#CMD serve_omniscient
+CMD . .env/bin/activate && exec serve_omniscient
