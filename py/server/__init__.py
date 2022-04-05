@@ -3,14 +3,14 @@ from tornado.httpserver import HTTPServer
 from tornado.ioloop import IOLoop
 from tornado.options import define, options
 from tornado.web import Application
-from server.app import HelloWorld
+from server.app import CognitiveApi
 
 define('port', default=3000, help='port to listen on')
 
 def main():
     """Construct and serve the tornado application."""
     app = Application([
-        ('/', HelloWorld)
+        (r"/([^/]+)?", CognitiveApi)
     ])
     http_server = HTTPServer(app)
     http_server.listen(options.port)
