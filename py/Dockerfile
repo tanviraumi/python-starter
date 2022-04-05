@@ -5,6 +5,7 @@ FROM nvidia/cuda:11.2.2-base-ubuntu20.04 as base
 
 # Python installation
 RUN apt-get update && \
+    apt-get install -y wget && \
     apt-get install -y --no-install-recommends \
         build-essential \
         python3 \
@@ -18,14 +19,22 @@ ENV TINI_VERSION v0.19.0
 ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
 RUN chmod +x /tini
 
-# Non-root user to run under
-RUN groupadd omniscient && \
-    useradd --gid omniscient --create-home omniscient
+# Move the model download script to temp folder
+COPY py/downloadModels.sh /temp/downloadModels.sh
 
-# switch to main user
+# Add a non-root user and assign owndership of the shell script
+RUN groupadd omniscient && \
+    useradd --gid omniscient --create-home omniscient && \
+    chown omniscient: /temp/downloadModels.sh
+
+# switch to non-root user
 USER omniscient
+RUN chmod +x /temp/downloadModels.sh
 RUN mkdir -p /home/omniscient/app/py
 WORKDIR /home/omniscient/app/py
+
+# Run the shell script to download the model
+RUN /temp/downloadModels.sh /home/omniscient/data
 
 #Copy over the requirements
 COPY --chown=omniscient:omniscient py/requirements requirements
