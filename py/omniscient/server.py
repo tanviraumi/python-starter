@@ -4,7 +4,7 @@ from tornado.escape import json_decode
 from tornado.gen import coroutine
 from tornado.web import HTTPError, RequestHandler
 
-class BaseApi(RequestHandler):
+class ApiHandler(RequestHandler):
     """Base view for this application."""
 
     def set_default_headers(self):
@@ -17,7 +17,7 @@ class BaseApi(RequestHandler):
         self.write(json.dumps(data))
 
 
-class CognitiveApi(BaseApi):
+class LanguageDetectionHandler(ApiHandler):
     SUPPORTED_METHODS = ("POST")
     LANGUAGE = LanguageDetect()
 
