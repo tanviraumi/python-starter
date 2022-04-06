@@ -96,7 +96,7 @@ setup(
     # executes the function `main` from this package when invoked:
      entry_points={  # Optional
          'console_scripts': [
-             'serve_omniscient=server:main',
+             'serve_omniscient=omniscient:main',
          ],
      },
 

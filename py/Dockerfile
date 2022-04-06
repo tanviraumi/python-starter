@@ -42,7 +42,7 @@ COPY --chown=omniscient:omniscient py/requirements requirements
 # Copy over the setup files and code
 COPY --chown=omniscient:omniscient py/README.md .
 COPY --chown=omniscient:omniscient py/setup.py .
-COPY --chown=omniscient:omniscient py/server server
+COPY --chown=omniscient:omniscient py/omniscient omniscient
 
 # We explicitly duplicate the Makefile commands to avoid requiring a rebuild of this image on a Makefile change
 RUN python3 -m venv .env && \

@@ -1,5 +1,5 @@
 import json
-from server.language_detection import LanguageDetect
+from omniscient.language_detection import LanguageDetect
 from tornado.escape import json_decode
 from tornado.gen import coroutine
 from tornado.web import HTTPError, RequestHandler
