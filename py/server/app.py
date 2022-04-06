@@ -18,25 +18,28 @@ class BaseApi(RequestHandler):
 
 
 class CognitiveApi(BaseApi):
-    """View for reading and adding new things."""
-    SUPPORTED_METHODS = ("GET", "POST",)
+    SUPPORTED_METHODS = ("POST")
     LANGUAGE = LanguageDetect()
-
-    @coroutine
-    def get(self, username):
-        self.send_response({
-            'username': username,
-            'description': "Get call"
-        })
 
     @coroutine
     def post(self):
         body = json_decode(self.request.body)
         if 'documents' not in body:
-            raise HTTPError(400, "Index name not specified")
+            raise HTTPError(400, "documents not specified")
         documents = body['documents']
-        text = documents[0]['text']
+        if not (isinstance(documents, list) and len(documents) > 0):
+            raise HTTPError(400, "documents must be a non empty array")
+        
+        output_documents = []
+        for input in documents:
+            id = input['id']
+            text = input['text']
+            detected_languages = self.LANGUAGE.predict_language(text)
+            output_documents.append({
+                "id": id,
+                "detectedLanguages": detected_languages
+            })
+        
         self.send_response({
-            'id': documents[0]['id'],
-            'detected_language': self.LANGUAGE.predict_language(text)
+            "documents": output_documents
         })

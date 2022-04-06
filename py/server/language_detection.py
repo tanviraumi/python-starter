@@ -27,8 +27,3 @@ class LanguageDetect:
             })
 
         return languages
-
-if __name__ == '__main__':
-    LANGUAGE = LanguageDetect()
-    LANG = LANGUAGE.predict_language("Hello World is a fantastic piece of text. I am constantly impressed by what I can do")
-    print(LANG)

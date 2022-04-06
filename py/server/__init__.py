@@ -8,9 +8,7 @@ from server.app import CognitiveApi
 define('port', default=3000, help='port to listen on')
 
 def main():
-    """Construct and serve the tornado application."""
     app = Application([
-        (r"/([^/]+)?", CognitiveApi),
         ("/text/analytics/", CognitiveApi)
     ])
     http_server = HTTPServer(app)
