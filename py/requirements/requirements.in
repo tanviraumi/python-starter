@@ -1,2 +1,3 @@
 -r tools.txt
 tornado
+fasttext

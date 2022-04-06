@@ -10,7 +10,8 @@ define('port', default=3000, help='port to listen on')
 def main():
     """Construct and serve the tornado application."""
     app = Application([
-        (r"/([^/]+)?", CognitiveApi)
+        (r"/([^/]+)?", CognitiveApi),
+        ("/text/analytics/", CognitiveApi)
     ])
     http_server = HTTPServer(app)
     http_server.listen(options.port)
