@@ -5,7 +5,7 @@ import re
 class LanguageDetect:
     def __init__(self):
         dirname = os.path.dirname(__file__)
-        model_location = os.path.join(dirname, '../../../../../../../data/lid.176.bin')
+        model_location = os.path.join(dirname, '../../../../../../../../data/lid.176.bin')
         self.model = fasttext.load_model(model_location)
 
     def strip_label(self, value):
