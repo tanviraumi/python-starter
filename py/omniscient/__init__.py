@@ -3,7 +3,7 @@ from tornado.httpserver import HTTPServer
 from tornado.ioloop import IOLoop
 from tornado.options import define, options
 from tornado.web import Application
-from omniscient.app import CognitiveApi
+from omniscient.server import CognitiveApi
 
 define('port', default=3000, help='port to listen on')
 
