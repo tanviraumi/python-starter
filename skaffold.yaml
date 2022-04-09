@@ -1,7 +1,7 @@
 apiVersion: skaffold/v2beta28
 kind: Config
 metadata:
-  name: python-starter
+  name: omniscient
 build:
   artifacts:
   - image: omniscient
@@ -11,15 +11,15 @@ build:
 deploy:
   kustomize:
     paths:
-    - ./overlays/dev
+    - ./manifests/overlays/dev
 profiles:
 - name: prod
   deploy:
     kustomize:
       paths:
-      - ./overlays/prod
+      - ./manifests/overlays/prod
 - name: staging
   deploy:
     kustomize:
       paths:
-      - ./overlays/staging
+      - ./manifests/overlays/staging
