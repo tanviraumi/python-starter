@@ -18,8 +18,3 @@ profiles:
     kustomize:
       paths:
       - ./manifests/overlays/prod
-- name: staging
-  deploy:
-    kustomize:
-      paths:
-      - ./manifests/overlays/staging
