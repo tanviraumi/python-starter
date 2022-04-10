@@ -6,11 +6,33 @@ class EntityDetect:
     def __init__(self):
         self.model = spacy.load("en_core_web_lg")
     
-    def predict_entities(self, text):
-        doc_entities = self.model(text)
-        entities = []
+    def predict_entities(self, batch):
+        spacy_batch = [(doc['text'], doc['id']) for doc in batch]
 
-        for ent in doc_entities.ents:
-            entities.append({"text": ent.text, "label_": ent.label})
+        result = []
+        for doc, id in self.model.pipe(spacy_batch, as_tuples=True):
+            sentences = [
+                {
+                    "start": sentence.start_char,
+                    "end": sentence.end_char,
+                }
+                for sentence in doc.sents]
 
-        return {"message": text, "entities":  entities}
+            entities = [
+                {
+                    "start": ent.start_char,
+                    "end": ent.end_char,
+                    "label": ent.label_,
+                }
+                for ent in doc.ents]
+            result.append({
+                "id": id,
+                "sentences": sentences,
+                "entities": entities
+            })
+        return result
+
+if __name__ == "__main__":
+    ENTITY = EntityDetect()
+    result = ENTITY.predict_entities([{ "id": "1", "text": "This is a document written in English."},{"id": "2", "text": "I had a wonderful trip to Seattle last week."}])
+    print (result)

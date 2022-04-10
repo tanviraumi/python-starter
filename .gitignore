@@ -2,3 +2,4 @@
 .env
 build/
 *.egg-info/
+en_core_web_lg-3.0.0-py3-none-any.whl
