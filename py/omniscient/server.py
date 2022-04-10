@@ -1,4 +1,5 @@
 import json
+from omniscient.services.entity_detection import EntityDetect
 from omniscient.services.language_detection import LanguageDetect
 from tornado.escape import json_decode
 from tornado.gen import coroutine
@@ -38,6 +39,33 @@ class LanguageDetectionHandler(ApiHandler):
             output_documents.append({
                 "id": id,
                 "detectedLanguages": detected_languages
+            })
+        
+        self.send_response({
+            "documents": output_documents
+        })
+
+class EntityDetectionHandler(ApiHandler):
+    SUPPORTED_METHODS = ("POST")
+    ENTITY = EntityDetect()
+
+    @coroutine
+    def post(self):
+        body = json_decode(self.request.body)
+        if 'documents' not in body:
+            raise HTTPError(400, "documents not specified")
+        documents = body['documents']
+        if not (isinstance(documents, list) and len(documents) > 0):
+            raise HTTPError(400, "documents must be a non empty array")
+        
+        output_documents = []
+        for input in documents:
+            id = input['id']
+            text = input['text']
+            detected_entities = self.ENTITY.predict_entities(text)
+            output_documents.append({
+                "id": id,
+                "detectedEntities": detected_entities
             })
         
         self.send_response({
