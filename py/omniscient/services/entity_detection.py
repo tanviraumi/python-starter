@@ -31,8 +31,3 @@ class EntityDetect:
                 "entities": entities
             })
         return result
-
-if __name__ == "__main__":
-    ENTITY = EntityDetect()
-    result = ENTITY.predict_entities([{ "id": "1", "text": "This is a document written in English."},{"id": "2", "text": "I had a wonderful trip to Seattle last week."}])
-    print (result)

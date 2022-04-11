@@ -17,6 +17,14 @@ class ApiHandler(RequestHandler):
         self.set_status(status)
         self.write(json.dumps(data))
 
+    def validate_request(self, request_body):
+        body = json_decode(request_body)
+        if 'documents' not in body:
+            raise HTTPError(400, "documents not specified")
+        documents = body['documents']
+        if not (isinstance(documents, list) and len(documents) > 0):
+            raise HTTPError(400, "documents must be a non empty array")
+        return documents
 
 class LanguageDetectionHandler(ApiHandler):
     SUPPORTED_METHODS = ("POST")
@@ -24,13 +32,8 @@ class LanguageDetectionHandler(ApiHandler):
 
     @coroutine
     def post(self):
-        body = json_decode(self.request.body)
-        if 'documents' not in body:
-            raise HTTPError(400, "documents not specified")
-        documents = body['documents']
-        if not (isinstance(documents, list) and len(documents) > 0):
-            raise HTTPError(400, "documents must be a non empty array")
-        
+        documents = self.validate_request(self.request.body)
+
         output_documents = []
         for input in documents:
             id = input['id']
@@ -51,14 +54,10 @@ class EntityDetectionHandler(ApiHandler):
 
     @coroutine
     def post(self):
-        body = json_decode(self.request.body)
-        if 'documents' not in body:
-            raise HTTPError(400, "documents not specified")
-        documents = body['documents']
-        if not (isinstance(documents, list) and len(documents) > 0):
-            raise HTTPError(400, "documents must be a non empty array")
+        documents = self.validate_request(self.request.body)
         
         output_documents = self.ENTITY.predict_entities(documents)
+
         self.send_response({
             "documents": output_documents
         })
